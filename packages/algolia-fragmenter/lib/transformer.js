@@ -80,6 +80,8 @@ module.exports.transformToAlgoliaObject = (posts, ignoreSlugs) => {
 
     posts.map((post) => {
         // Define the properties we need for Algolia
+        const _date = post.published_at?post.published_at.split('T')[0]:null;
+        const _timestamp = _date?new Date(_date).getTime():null;
         const algoliaPost = {
             objectID: post.id,
             slug: post.slug,
@@ -88,7 +90,9 @@ module.exports.transformToAlgoliaObject = (posts, ignoreSlugs) => {
             image: post.feature_image,
             title: post.title,
             tags: [],
-            authors: []
+            authors: [],
+            published_at:_date,
+            post_date_timestamp:_timestamp
         };
 
         // If we have an array of slugs to ignore, and the current
